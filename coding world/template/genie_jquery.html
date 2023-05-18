@@ -1,0 +1,75 @@
+{% extends "prototype/base.html" %}
+{% block additional_head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <style>
+        th { text-align: center; }
+    </style>
+{% endblock %}
+{% block title %}Genie{% endblock %}
+{% block weather %}{{ weather | safe() }}{% endblock %}
+{% block saying %}{{ saying }}{% endblock %}
+{% block subtitle %}
+    <i class="fa-solid fa-headphones-simple"></i> 지니차트 TOP 200 : jQuery Data Table version
+    <span style="font-size: 15px; color: grey;">{{ ymd }} {{ hh }}시 기준</span>
+{% endblock %}
+{% block content %}
+        <table id="example" class="table">
+            <thead>
+                <tr>
+                    <th>index</th>
+                    <th style="width: 8%;">No</th>
+                    <th style="width: 10%;">이미지</th>
+                    <th style="width: 30%;">타이틀</th>
+                    <th style="width: 26%;">아티스트</th>
+                    <th style="width: 26%;">앨범</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for music in music_list %}
+                <tr>
+                    <td>{{music.index}}</td>
+                    <td style="text-align: center;">{{music.rank}}</td>
+                    <td style="text-align: center;"><img src="{{music.img}}" height="32"></td>
+                    <td>{{music.title}}</td>
+                    <td>{{music.artist}}</td>
+                    <td>{{music.album}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
+{% block additional_body %}
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                info: false,
+                searching: true,
+                paging: true,
+                ordering: false,
+                //order: [[ 0, "asc" ]],
+                columnDefs: [{
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }],
+                language: {
+                    thousands: ',',
+                    search: '',
+                    searchPlaceholder: "검색어",
+                    paginate: {
+                        first: '처음',
+                        previous: '이전',
+                        next: '다음',
+                        last: '마지막',
+                    }
+                },
+                oLanguage: {
+                    sLengthMenu: "_MENU_",
+                },
+                "lengthMenu": [[10, -1], ["10개씩 보기", "모두 보기"]]
+            });
+        } );
+    </script>
+{% endblock %}

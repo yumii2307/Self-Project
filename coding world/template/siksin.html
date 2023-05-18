@@ -1,0 +1,45 @@
+{% extends "prototype/base.html" %}
+{% block additional_head %}
+    <style>
+        th { text-align: center; width: 14.28%; }
+        td { height: 120px; }
+        input { margin: 3px; }
+    </style>
+{% endblock %}
+{% block title %}Siksin{% endblock %}
+{% block weather %}{{ weather | safe() }}{% endblock %}
+{% block saying %}{{ saying }}{% endblock %}
+{% block subtitle %}<i class="fa-solid fa-utensils"></i> 식신 - 맛집검색{% endblock %}
+{% block content %}
+    <div class="col-1"></div>
+    <div class="col-10">
+        <form action="siksin" method="post">
+            <table>
+                <tr>
+                    <td><input type="text" name="place" class="form-control"></td>
+                    <td><button type="submit" class="btn btn-primary ms-3">검색</button></td>
+                    <td><button onclick="location.href='/siksin'" class="btn btn-primary ms-2">재실행</button></td>
+                </tr>
+            </table>
+        </form>
+        <table class="table">
+            <tr>
+                <th style="width: 10%;">별점</th>
+                <th style="width: 12%;">이미지</th>
+                <th style="width: 40%;">식당명</th>
+                <th style="width: 24%;">주소</th>
+                <th style="width: 14%;">메뉴</th>
+            </tr>
+            {% for food in food_list %}
+            <tr>
+                <td style="text-align: center;"><i class="fa-solid fa-star"></i> {{food.score}}</td>
+                <td style="text-align: center;"><img src="{{food.img}}" height="80"></td>
+                <td><a href="{{food.href}}" target="_blank">{{food.title}}</a></td>
+                <td>{{food.location}}</td>
+                <td>{{food.menu}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-1"></div>
+{% endblock %}
