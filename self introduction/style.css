@@ -1,0 +1,76 @@
+body {
+    background-color: #FCE4EC;
+  }
+  
+  .toggleButton {
+    background-color: #f08080;
+    border: none;
+    color: #fff;
+    border-radius: 15px;
+    padding: 7px 20px;
+    transition: background-color 0.3s ease;
+    font-size: large;
+  }
+  
+  .toggleButton:hover {
+    background-color: #f0808080;
+    color: #fff;
+  }
+  
+  .hiddenText {
+    display: none;
+  }
+  
+  #personalInformation {
+    border: 3px solid #f08080;
+    border-radius: 15px;
+    margin-top: 10px;
+    border-collapse: separate;
+    padding: 15px;
+    font-weight: bold;
+    background-color: #fff;
+  } 
+    .dessert39 {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .dessert39:hover {
+      opacity: 0.7;
+    }
+  
+  .carousel-item img {
+      width: 550px;
+      height: 350px;
+}
+
+.carousel {
+    width: 550px;
+    height: 350px;
+  }
+
+.basic {
+    width: 550px;
+    height: 350px;
+}
+
+.card {
+    width: 400px;
+    height: 690px;
+  }
+
+.address {
+    width: 30px;
+  }
+
+hr {
+  color: #f08080;
+}
+
+.nav-link {
+  color: #f08080;
+}
+
+.nav-link:hover {
+  color: #f0808080; 
+}
