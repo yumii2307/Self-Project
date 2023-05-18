@@ -10,6 +10,7 @@ upload/
 key/
 photo/
 test/
+model/
 
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
