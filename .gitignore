@@ -11,6 +11,7 @@ key/
 photo/
 test/
 model/
+melon_cosine_sim.sim
 
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
