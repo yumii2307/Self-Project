@@ -1,20 +1,25 @@
 import numpy as np
 import pandas as pd
-import os, re, string
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import os, re, string, joblib
 
 ##########################################################
 # search_songs : 노래 제목과 가수 검색해서 결과값 리턴
 ##########################################################
 def search_songs(key_title, key_artist, app):
-    filename = os.path.join(app.static_folder, 'data/melon_song_v2.csv')
+# def search_songs(key_title, key_artist):
+
+    # print(key_title, key_artist)
+    filename = os.path.join(app.static_folder, 'data/melon_song_v3.csv')
+    # filename = '../data/melon_song_v2.csv'
 
     try:
         df = pd.read_csv(filename)
     except:
         return []
     
+    df.date.fillna(0, inplace=True)
+    df['date'] = df.date.astype(int).astype(str)
+    df.fillna('', inplace=True)
     df.songId = df.songId.astype(str)
     # 노래 제목과 가수로 찾기
     
@@ -33,6 +38,7 @@ def search_songs(key_title, key_artist, app):
 # propose : 해당 노래에 대해 여러가지로 추천
 ##########################################################
 def propose(find_songId, app):
+# def propose(find_songId):
 
     def get_recommendation(songId, cos_sim):
         index = indices[songId]
@@ -40,16 +46,24 @@ def propose(find_songId, app):
         song_indices = sim_scores.sort_values(ascending=False).head(31).tail(30).index
         return df.songId.iloc[song_indices]
 
-    filename = os.path.join(app.static_folder, 'data/melon_song_v2.csv')
-    plist_filename1 = os.path.join(app.static_folder, 'data/melon_playlist1.csv')
-    plist_filename2 = os.path.join(app.static_folder, 'data/melon_playlist2_v2.csv')
-
+    # filename = '../data/melon_song_v2.csv'
+    # plist_filename1 = '../data/melon_playlist1.csv'
+    # plist_filename2 = '../data/melon_playlist2_v2.csv'
     try:
+
+        filename = os.path.join(app.static_folder, 'data/melon_song_v3.csv')
+        plist_filename1 = os.path.join(app.static_folder, 'data/melon_playlist1.csv')
+        plist_filename2 = os.path.join(app.static_folder, 'data/melon_playlist2_v2.csv')
+        cosine_sim_filename = os.path.join(app.static_folder, 'data/melon_cosine_sim.sim')
+ 
         df = pd.read_csv(filename)
         plist1 = pd.read_csv(plist_filename1)
         plist2 = pd.read_csv(plist_filename2)
+        # consine 유사도 파일로 불러오기
+        cosine_sim = joblib.load(cosine_sim_filename)
+
     except:
-        return [], [], []
+        return '', {}, [], [], []
     
 
     # 1. 데이터 처리를 위한 작업
@@ -64,21 +78,17 @@ def propose(find_songId, app):
     df['songId'] = df.songId.astype(str)
     df.lyric = df.lyric.str.replace('\r', '')
 
-    
-    # 2. 학습할 데이터열 생성
+    # 곡 정보 추가
     ###############################################
-    # df['total'] = df.morphs + (' ' + df.title) + (' ' + df.artist) * 2 + (' ' + df.composer) * 2 + (' ' + df.lyricist) * 2 + (' ' + df.genre) * 3
-    # df.set_index('songId', inplace=True)
-    # df.reset_index(inplace=True)
+    self_song = df[df.songId == find_songId][['title', 'artist', 'album', 'date', 'img', 'genre', 'ly_summary']].to_dict('records')[0]
+    
 
+    # 2. index 매칭
+    ###############################################
     indices = pd.Series(df.index, index=df.songId)
 
-    tvect = TfidfVectorizer(stop_words='english')
-    total_tv = tvect.fit_transform(df.total)
-    cosine_sim = cosine_similarity(total_tv)
 
-   
-    # 3. 컨텐츠 기반 추천 넘겨줄 것
+    # 3. 컨텐츠 기반 추천
     ###############################################
     a = get_recommendation(find_songId, cosine_sim).to_frame()
     pro_contents = df[df['songId'].isin(a.songId[1:6])][['songId', 'title', 'artist', 'img']].to_dict('records')
@@ -94,7 +104,7 @@ def propose(find_songId, app):
     filtered_data = df[(df['comment_like_total'] >= q1) & (df['comment_like_total'] < q2)]
     filtered_data = filtered_data[['songId', 'comment_like_total']]
     
-    # 명곡 컨텐츠 넘겨줄 것
+    # 명곡 컨텐츠 추천
     # 유사도 top 30 중 원하는 구간에 있는 songId 추출(유사도순)
     d = a[a['songId'].isin(filtered_data.songId.values)].head(5)
     pro_meong = df[df['songId'].isin(d.songId.values[:5])][['songId', 'title', 'artist', 'img']].to_dict('records')
@@ -103,15 +113,35 @@ def propose(find_songId, app):
     # 5. 플레이리스트 추천
     ###############################################
     # 가장 많이 들어간 tag 찾기
+
     tags = np.unique(' '.join(plist1[plist1.songIds.str.contains(find_songId)]['tag'].values).split(), return_counts=True)
-    df_tags = pd.DataFrame({'tag' : tags[0], 'count' : tags[1]})
-    pro_tags = ' '.join(df_tags.sort_values('count', ascending=False).head(2)['tag'])
+    # argsort : 값이 큰 순서대로 값의 인덱스 정렬 -1 큰 순서대로
+
+    if len(tags[0]) :
+        re_count = np.argsort(-tags[1]) 
+        if len(re_count) > 2:
+            pro_tags = f"{tags[0][re_count][0].strip('#')}, {tags[0][re_count][1].strip('#')} 그리고 {tags[0][re_count][2].strip('#')}"
+        elif len(re_count) == 2:
+            pro_tags = f"{tags[0][re_count][0].strip('#')} 그리고 {tags[0][re_count][1].strip('#')}"
+        else:
+            pro_tags = f"{tags[0][re_count][0].strip('#')}"
+
+    else:
+        pro_tags = ''
 
     # 가장 많이 들어가 songId 찾기
-    songs = np.unique(' '.join(plist1[plist1.songIds.str.contains(find_songId)]['songIds'].values).replace(find_songId, '').split(), return_counts=True)
-    df_songs = pd.DataFrame({'songId' : songs[0], 'count' : songs[1]})
-    song_list = df_songs.sort_values('count', ascending=False).head(5)['songId'].values
+    songs = np.unique(' '.join(plist1[plist1.songIds.str.contains(find_songId)]['songIds'].values).replace(find_songId + ' ', '').split(), return_counts=True)
 
+    cnt = 0
+    song_list = []
+
+    # argsort 값을 sort해서 값의 index를 오름차순으로 '-' 해주면 내림차순으로
+    for s_id in songs[0][np.argsort(-songs[1])]:    
+        if not df[df.songId.isin([s_id])].empty : # df에 있으면 추가
+            cnt += 1
+            song_list.append(s_id)
+        if cnt == 5 : break
+    
 
     # 해당 songId 들 정보 출력
     # 없으면 플레이리스트2에 있는 songId 에서 정보 가져오기
@@ -124,5 +154,20 @@ def propose(find_songId, app):
 
     # print(pro_tags, pro_contents, pro_meong, pro_psongs)
 
-    return pro_tags, pro_contents, pro_meong, pro_psongs
+    return pro_tags, self_song, pro_contents, pro_meong, pro_psongs
 ########## end of propose ##############################
+
+
+
+
+
+
+# # # 키워드 바꿔가면서 찾아보기
+# key_title = '안녕'
+# key_artist = '성시경'
+
+# ## 테스트
+# songIds = search_songs(key_title, key_artist)
+# print(songIds[0]['songId'])
+
+# propose(songIds[0]['songId'])
