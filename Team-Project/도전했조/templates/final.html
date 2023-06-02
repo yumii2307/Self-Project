@@ -135,7 +135,7 @@
         </div>
         <section id="list" class="list-section wf-section">
             <div data-w-id="d56fbba5-9ffe-ad7d-0e5e-06923c8462b1" style="opacity:0" class="div-block-22">
-                <div class="div-block-26"><h1 class="heading-5">#감성, #가을 그리고 발라드</h1></div>
+                <div class="div-block-26"><h1 class="heading-5">{% for tag in pro_tags %}{{tag}}, {{tag}}{% endfor %} 그리고 {{self_song.genre}}</h1></div>
                 <div class="div-block-27">
                     <div class="div-block-28">
                         <div class="div-block-30"><img src="{{self_song.img}}" loading="lazy" width="400" height="400" class="image-8" /></div>
