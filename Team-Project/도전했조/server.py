@@ -28,7 +28,7 @@ def result():
         songId = request.form['optradio']
         pro_tags, self_song, pro_contents, pro_meong, pro_psongs = pu.propose(songId, app)
 
-        return render_template('final3.html', pro_tags=pro_tags, self_song=self_song, pro_contents=pro_contents, pro_meong=pro_meong, pro_psongs=pro_psongs)
+        return render_template('final.html', pro_tags=pro_tags, self_song=self_song, pro_contents=pro_contents, pro_meong=pro_meong, pro_psongs=pro_psongs)
 
 
 if __name__ == '__main__': 

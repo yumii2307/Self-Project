@@ -61,7 +61,7 @@ def propose(find_songId, app):
     indices = pd.Series(df.index, index=df.songId)
 
     a = get_recommendation(find_songId, cosine_sim).to_frame()
-    pro_contents = df[df['songId'].isin(a.songId[1:6])][['songId', 'title', 'artist', 'img']].to_dict('records')
+    pro_contents = df[df['songId'].isin(a.songId[1:6])][['songId', 'title', 'artist', 'img', 'album']].to_dict('records')
     
     numbers = df['comment_like_total']
     sorted_numbers = np.sort(numbers)
@@ -71,7 +71,7 @@ def propose(find_songId, app):
     filtered_data = filtered_data[['songId', 'comment_like_total']]
     
     d = a[a['songId'].isin(filtered_data.songId.values)].head(5)
-    pro_meong = df[df['songId'].isin(d.songId.values[:5])][['songId', 'title', 'artist', 'img']].to_dict('records')
+    pro_meong = df[df['songId'].isin(d.songId.values[:5])][['songId', 'title', 'artist', 'img', 'album']].to_dict('records')
 
     tags = np.unique(' '.join(plist1[plist1.songIds.str.contains(find_songId)]['tag'].values).split(), return_counts=True)
 
@@ -98,7 +98,7 @@ def propose(find_songId, app):
             song_list.append(s_id)
         if cnt == 5 : break
     
-    pro_psongs = df[df.songId.isin(song_list)][['songId', 'title', 'artist', 'img']]
+    pro_psongs = df[df.songId.isin(song_list)][['songId', 'title', 'artist', 'img', 'album']]
 
     if pro_psongs.empty:
         pro_psongs = plist2[plist2.songId.isin(song_list)]
