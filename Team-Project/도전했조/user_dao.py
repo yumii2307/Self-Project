@@ -2,7 +2,7 @@ import sqlite3 as sq
 
 # 회원정보 조회
 def get_users():
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'select * from user;'
@@ -16,16 +16,17 @@ def get_users():
 
 # uid 한건만
 def get_user_by_uid(uid):
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'select count(*) from user where uid=?;'
     cur.execute(sql, (uid,))
     row = cur.fetchone()
+    return row[0]
 
 # uid 한건에 해당하는 모든 정보
 def get_user_by_info(uid):
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'select * from user where uid=?;'
@@ -36,7 +37,7 @@ def get_user_by_info(uid):
 
 # 회원가입
 def insert_user(params):
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'insert into user(uid, uname, pwd, gender, email, birthday) values( ?, ?, ?, ?, ?, ?);'
@@ -49,7 +50,7 @@ def insert_user(params):
 
 # 정보수정
 def update_user(params):
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'update user set uname=?, pwd=?, gender=?, email=?, birthday=? where uid=?'
@@ -62,7 +63,7 @@ def update_user(params):
 
 # 탈퇴
 def delete_user(uid):
-    conn = sq.connect('./static/db/userinfo.db')
+    conn = sq.connect('./static/DB/userinfo.db')
     cur = conn.cursor()
 
     sql = 'delete from user where uid =?;'

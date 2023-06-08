@@ -3,6 +3,7 @@ import pandas as pd
 import os, re, string, joblib, json
 import requests
 from datetime import datetime
+import user_searched_dao
 
 ##########################################################
 # 현재 위치 알기
@@ -46,16 +47,16 @@ def get_weather(app):
 
     if weather_id == 800: 
         desc = '햇|드라이브'
-        img_name = 'drive2.jpg'
+        img_name = 'drive.jpg'
     elif 600 <= weather_id < 700:
         desc = '눈|겨울'
-        img_name = 'winter_snow2.jpg'
+        img_name = 'snow.jpg'
     elif weather_id > 800:
         desc = '흐|휴식'
-        img_name = 'cloud2.jpg'
+        img_name = 'cloud.jpg'
     else:
         desc = '비|센치'
-        img_name = 'rain2.jpg'
+        img_name = 'rain.jpg'
 
     return desc, img_name, html
 
@@ -69,17 +70,17 @@ def get_time():
     if 0 <= hour <= 6:
         desc = '새벽|감성'
         img_name = 'dawn.jpg'
-    elif 6 < hour <= 12:
+    elif 6 < hour < 12:
         desc = '출근|아이돌'
-        img_name = 'judy2.png'
-    elif 12 < hour < 18:
+        img_name = 'joody.jpg'
+    elif 12 <= hour < 18:
         desc = '오후|기분'
-        img_name = 'afternoon3.png'
+        img_name = 'afternoon.png'
     elif 18 <= hour <= 24:
         desc = '버스|지하철'
         img_name = 'bus.jpg'
     
-    html = f'시간은 "{hour}시 {now.minute}분"'
+    html = f'시간은 {hour}시 {now.minute}분'
     return desc, img_name, html
 
 
@@ -159,7 +160,7 @@ def search_songs(key_title, key_artist, app):
 ##########################################################
 # propose : 해당 노래에 대해 여러가지로 추천
 ##########################################################
-def propose(find_songId, app):
+def propose(uid, find_songId, app):
 
     def get_recommendation(songId, cos_sim):
         index = indices[songId]
@@ -197,11 +198,19 @@ def propose(find_songId, app):
     indices = pd.Series(df.index, index=df.songId)
 
     # 3. 곡 정보 추가
-    self_song = df[df.songId == find_songId][['title', 'artist', 'album', 'date', 'genre', 'img', 'ly_summary']].to_dict('records')[0]
+    self_song = df[df.songId == find_songId][['songId', 'title', 'artist', 'album', 'date', 'genre', 'img', 'ly_summary']].to_dict('records')[0]
+    
+    # 3 - 1. 검색한 기록 저장하기
+    if uid :
+        # print('uid = ', uid)
+        now = datetime.now()
+        user_searched_dao.insert_user_record((uid, now.strftime('%Y-%m-%d %H:%M:%S'), 
+                                              find_songId, self_song['img'], self_song['title'], 
+                                              self_song['artist'], self_song['album'] ))
 
     # 4. 컨텐츠 기반 추천
     a = get_recommendation(find_songId, cosine_sim).to_frame()
-    pro_contents = df[df['songId'].isin(a.songId[1:6])][['songId', 'title', 'artist', 'img']].to_dict('records')
+    pro_contents = df[df['songId'].isin(a.songId[1:6])][['songId', 'title', 'artist', 'album', 'img']].to_dict('records')
     
     # 5. 숨은 명곡 추천
     # 찾고 싶은 구간 정하기
@@ -215,7 +224,7 @@ def propose(find_songId, app):
     # 명곡 컨텐츠 추천
     # 유사도 top 30 중 원하는 구간에 있는 songId 추출(유사도순)
     d = a[a['songId'].isin(filtered_data.songId.values)].head(5)
-    pro_meong = df[df['songId'].isin(d.songId.values[:5])][['songId', 'title', 'artist', 'img']].to_dict('records')
+    pro_meong = df[df['songId'].isin(d.songId.values[:5])][['songId', 'title', 'artist', 'album', 'img']].to_dict('records')
 
     # 7. 플레이리스트 추천
     # 1) 가장 많이 들어간 tag 찾기
@@ -242,7 +251,7 @@ def propose(find_songId, app):
     # argsort 값을 sort해서 값의 index를 오름차순으로 '-' 해주면 내림차순으로
     for s_id in songs[0][np.argsort(-songs[1])]:  
         # song 테이블에서 먼저 찾는다.  
-        tmp = df[df.songId.isin([s_id])][['songId', 'title', 'artist', 'img']]
+        tmp = df[df.songId.isin([s_id])][['songId', 'title', 'artist', 'img', 'album' ]]
         if not tmp.empty :
             cnt += 1
             pro_psongs = pd.concat([pro_psongs, tmp])

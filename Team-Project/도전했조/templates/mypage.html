@@ -14,6 +14,11 @@
         <link href="https://uploads-ssl.webflow.com/63fc43570e70bd27006a038e/63fc43580e70bd5fc96a03bb_Favicon%2032.png" rel="shortcut icon" type="image/x-icon" />
         <link href="https://uploads-ssl.webflow.com/63fc43570e70bd27006a038e/63fc43580e70bd2a7a6a03bc_Favicon%20256.png" rel="apple-touch-icon" />
         <script src="https://kit.fontawesome.com/6ad2601fd7.js" crossorigin="anonymous"></script>
+        <script>
+            function onOthers(){
+                alert("준비중입니다.")
+            }
+        </script>
     </head>
     <body>
         <div class="page-wrapper">
@@ -39,19 +44,21 @@
                 </div>
                 <section class="team-slider wf-section">
                     <div data-w-id="eedd8e59-5c78-b624-8029-7712e2c4cca4" style="opacity:0" class="container-2">
-                        <h2 class="centered-heading">&#x27;마리아&#x27; <span class="text-span-3">님의</span>
+                        <h2 class="centered-heading">&#x27;{{session['uid']}}&#x27; <span class="text-span-3">님의</span>
                             <span class="text-span">#취향 기록 <i class="fa-solid fa-headphones-simple"></i></span>
                         </h2>
                         <div data-delay="4000" data-animation="slide" class="team-slider-wrapper w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="12" data-duration="500" data-infinite="true">
                             <div class="w-slider-mask">
-                                {% for song in songs[:9] %}
+                                {% for song in songs %}
                                     <div class="team-slide-wrapper w-slide">
                                         <div class="team-block">
-                                            <img src="{{song.img}}" loading="lazy" class="team-member-image-two" />
+                                            <a href="/my_result/{{song[3]}}">
+                                                <img src="{{song[4]}}" loading="lazy" class="team-member-image-two" />
+                                            </a>
                                             <div class="team-block-info">
-                                                <h3 class="team-member-name-two">{{song.title}}</h3>
-                                                <p class="team-member-text"><strong>{{song.artist}}<br /></strong>{{song.album}}</p>
-                                                <div>2023.06.05 16:38:26</div>
+                                                <h3 class="team-member-name-two">{{song[5]}}</h3>
+                                                <p class="team-member-text"><strong>{{song[6]}}<br /></strong>{{song[7]}}</p>
+                                                <div>{{song[2]}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -66,7 +73,7 @@
                             <div class="team-slider-nav w-slider-nav w-slider-nav-invert w-round"></div>
                         </div>
                     </div>
-                    <div class="div-block-9"><a data-w-id="f3432c82-a2c4-e452-349f-fa8d69553c6b" style="opacity:0" href="#" class="button-2 w-button">더보기 &gt;</a></div>
+                    <div class="div-block-9"><a data-w-id="f3432c82-a2c4-e452-349f-fa8d69553c6b" style="opacity:0" href="javascript:onOthers();" class="button-2 w-button">더보기 &gt;</a></div>
                 </section>
                 <section class="footer-subscribe wf-section">
                     <div class="container">
