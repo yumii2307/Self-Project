@@ -72,7 +72,7 @@ def get_time():
         img_name = 'dawn.jpg'
     elif 6 < hour < 12:
         desc = '출근|아이돌'
-        img_name = 'joody.jpg'
+        img_name = 'judy.jpg'
     elif 12 <= hour < 18:
         desc = '오후|기분'
         img_name = 'afternoon.png'
