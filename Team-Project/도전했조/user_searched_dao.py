@@ -22,3 +22,15 @@ def get_user_by_search_record(uid):
     cur.execute(sql, (uid,))
     row = cur.fetchall()
     return row
+
+# 탈퇴
+def delete_user(uid):
+    conn = sq.connect('./static/DB/usearched.db')
+    cur = conn.cursor()
+
+    sql = 'delete from user_searched where uid =?;'
+    cur.execute(sql, (uid,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
