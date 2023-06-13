@@ -1,10 +1,92 @@
+@charset "utf-8";
+
 * {
+    margin: auto;
+    padding: 0;
+    list-style: none;
     color: #333333;
 }
 body {
     width: 1000px;
     height: 650px;
 }
+a {
+    text-decoration: none;
+    display: block;
+}
 .top {
     float: left;
+    width: 200px;
+    height: 650px;
+}
+.logo {
+    width: 200px;
+    height: 40px;
+}
+.menu {
+    float: left;
+    width: 180px;
+}
+.imgslide {
+    width: 800px;
+    height: 350px;
+}
+.notice {
+    float: left;
+    width: 300px;
+    height: 200px;
+}
+.gallery {
+    float: left;
+    width: 300px;
+    height: 200px;
+}
+.gallery h4 {
+    float: left;
+    height: 50px;
+    line-height: 50px;
+}
+.gallery ul li {
+    float: left;
+    padding: 10px;
+    margin-top: 10px;
+}
+.gallery img {
+    width: 80px;
+    height: 80px;
+}
+.shortcut {
+    float: right;
+    width: 200px;
+    height: 200px;
+}
+.shortcut img {
+    float: right;
+    width: 180px;
+    height: 180px;
+    padding: 10px;
+}
+.sctext {
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin-top: 85px;
+    margin-left: 50px;
+}
+.btlogo {
+    float: left;
+    width: 200px;
+    height: 100px;
+}
+.copy {
+    float: left;
+    width: 400px;
+    height: 100px;
+}
+.familysite {
+    float: right;
+    width: 200px;
+    height: 100px;
 }
