@@ -19,7 +19,7 @@ a {
 header {
     width: 100%;
     height: 100px;
-    background-color: #dddddd;
+    background: #dddddd;
 }
 .wrap {
     width: 1200px;
@@ -31,7 +31,6 @@ header {
 }
 .logo img {
     width: 250px;
-    height: 100px;
 }
 .menu {
     float: right;
@@ -91,14 +90,14 @@ header {
     position: relative;
     overflow: hidden;
 }
-.sildelist {
+.slidelist {
     width: 3600px;
 }
-.sildelist ul li {
+.slidelist ul li {
     width: 1200px;
     float: left;
 }
-.sildelist span {
+.slidelist span {
     width: 500px;
     height: 50px;
     position: absolute;
@@ -114,11 +113,83 @@ header {
     float: left;
     width: 1200px;
     height: 200px;
+    position: absolute;
 }
 .tabmenu {
     float: left;
-    width: 400px;
-    height: 200px;
+    width: 395px;
+    height: 180px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.tabmenu>li {
+    float: left;
+    width: 100px;
+    line-height: 30px;
+}
+.tabmenu>li>a {
+    display: block;
+    font-size: 16px;
+    text-align: center;
+    background-color: #cccccc;
+    border: 1px solid #dddddd;
+    border-bottom: none;
+}
+.tabmenu>li>a:hover {
+    background-color: #eeeeee;
+}
+.tabmenu>li:first-child a {
+    border-right: none;
+}
+.tabmenu>li.active>a {
+    background-color: #ffffff;
+}
+.tabmenu>li div {
+    position: absolute;
+    left: 0px;
+    height: 0px;
+    overflow: hidden;
+}
+.tabmenu>li.active div {
+    width: 393px;
+    height: 148px;
+    border: 1px solid #dddddd;
+    z-index: 1;
+}
+.notice ul {
+    float: left;
+    width: 393px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.notice li {
+    height: 32px;
+    line-height: 32px;
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.notice li:nth-child(2n) {
+    background-color: #cccccc;
+}
+.notice li span {
+    float: right;
+}
+.notice li:hover {
+    font-weight: bold;
+}
+.gallery li {
+    float: left;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+.gallery img {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+}
+.gallery li:hover {
+    opacity: 0.5;
 }
 .otherwap {
     float: right;
@@ -127,13 +198,100 @@ header {
 }
 .banner {
     float: left;
-    width: 400px;
-    height: 200px;
+    width: 395px;
+    height: 180px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.banner img {
+    float: left;
+    width: 395px;
+    height: 180px;
+}
+.bntext {
+    float: left;
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 40px;
+    background-color: rgba(40, 40, 40, 0.3);
+    left: 450px;
+    top: 80px;
+}
+.banner img:hover {
+    opacity: 0.5;
 }
 .shortcut {
     float: right;
     width: 400px;
-    height: 200px;
+    height: 180px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.shortcut img {
+    float: right;
+    width: 400px;
+    height: 180px;
+}
+.sctext {
+    float: right;
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 40px;
+    background-color: rgba(40, 40, 40, 0.3);
+    left: 850px;
+    top: 80px;
+}
+.shortcut img:hover {
+    opacity: 0.5;
+}
+#layer {
+    position: absolute;
+    z-index: 1;
+    display: none;
+}
+#layer.active {
+    display: block;
+}
+.layer_up {
+    width: 500px;
+    height: 400px;
+    position: fixed;
+    left: 30%;
+    top: 20%;
+    background-color: #ffffff;
+}
+.uptitle {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.upbody {
+    padding: 30px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+}
+.btn {
+    width: 80px;
+    height: 20px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #cccccc;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
 footer {
     width: 100%;
@@ -145,6 +303,12 @@ footer {
     width: 250px;
     height: 100px;
 }
+.btlogo img {
+    float: left;
+    width: 200px;
+    margin-top: 10px;
+    margin-left: 25px;
+}
 .site {
     float: right;
     width: 600px;
@@ -153,8 +317,22 @@ footer {
 .btmenu {
     width: 600px;
     height: 50px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 30px;
+}
+.btmenu li {
+    margin-top: 10px;
+    display: inline-block;
+    width: 100px;
+}
+.btmenu li:hover {
+    font-weight: bold;
 }
 .copy {
     width: 600px;
     height: 50px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 50px;
 }
