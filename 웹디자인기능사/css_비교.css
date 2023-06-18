@@ -1,0 +1,61 @@
+/* 모달 레이어 */
+#modal {
+    width: 100%;        /* 모달 레이어 */
+    height: 100%;       /* 모달 레이어 */
+    position: absolute;
+    left: 0px;          /* 모달 레이어 */
+    top: 0px;           /* 모달 레이어 */
+    background: rgba(0, 0, 0, 0.6);     /* 모달 레이어 */
+    z-index: 1;
+    display: none;
+}
+
+/* 레이어 팝업창 */
+#layer {
+    position: absolute;
+    z-index: 1;
+    display: none;
+}
+
+/* 탭메뉴 */
+.tabmenu {
+    float: left;
+    width: 395px;
+    height: 180px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.tabmenu>li {
+    float: left;
+    width: 100px;
+    line-height: 30px;
+}
+.tabmenu>li>a {
+    display: block;
+    font-size: 16px;
+    text-align: center;
+    background-color: #cccccc;
+    border: 1px solid #dddddd;
+    border-bottom: none;
+}
+.tabmenu>li>a:hover {
+    background-color: #eeeeee;
+}
+.tabmenu>li:first-child a {
+    border-right: none;
+}
+.tabmenu>li.active>a {
+    background-color: #ffffff;
+}
+.tabmenu>li div {
+    position: absolute;
+    left: 0px;
+    height: 0px;
+    overflow: hidden;
+}
+.tabmenu>li.active div {
+    width: 393px;
+    height: 148px;
+    border: 1px solid #dddddd;
+    z-index: 1;
+}
