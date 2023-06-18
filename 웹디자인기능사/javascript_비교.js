@@ -16,6 +16,12 @@ jQuery(document).ready(function() {
         $('#menu_bg').stop().slideUp(500); 
     })
 
+    $('.navi>li').mouseover(function() {
+        $('.submenu').stop().slideDown(500);
+    }).mouseout(function() {
+        $('.submenu').stop().slideUp(500);
+    });
+
     // Fade-in, Fade-out
     $('.imgslide a:gt(0)').hide();
     setInterval(function() {
@@ -51,7 +57,7 @@ jQuery(document).ready(function() {
     // 위-아래 슬라이드
     setInterval(function() {
         $('.slidelist').delay(1000);
-        $('.slidelist').animate({marginTop:- 300});
+        $('.slidelist').animate({marginTop: -300});
         $('.slidelist').delay(2000);
         $('.slidelist').animate({marginTop: -600});
         $('.slidelist').delay(2000);

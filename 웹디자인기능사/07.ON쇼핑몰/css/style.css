@@ -19,7 +19,7 @@ a {
 header {
     height: 100px;
     width: 1200px;
-    position: relative;
+    position:relative; 
 }
 .top {
     height: 100px;
@@ -92,7 +92,7 @@ header {
     display: block;
     position: absolute;
 }
-.imtext {
+.imgtext {
     height: 50px;
     width: 500px;
     position: absolute;
