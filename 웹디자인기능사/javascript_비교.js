@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
     }, 3000);
 
     // 좌-우 슬라이드
-    setInterval (function() {
+    setInterval(function() {
         $('.slidelist').delay(2000);
         $('.slidelist').animate({marginLeft : -1200});
         $('.slidelist').delay(2000);
