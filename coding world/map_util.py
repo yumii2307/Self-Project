@@ -3,7 +3,7 @@ import pandas as pd
 from urllib.parse import quote
 
 def get_coord(addr):
-    with open('../04.지도시각화/data/roadapikey.txt') as f:
+    with open('static/data/roadapikey.txt') as f:
         road_key = f.read()
     base_url = 'https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do'
     params1 = f'confmKey={road_key}&currentPage=1&countPerPage=10&resultType=json'
@@ -13,7 +13,7 @@ def get_coord(addr):
         res = json.loads(result.text[1:-1])
         load_addr = res['results']['juso'][0]['roadAddr']
 
-    with open('../04.지도시각화/data/kakaoapikey.txt') as f:
+    with open('static/data/kakaoapikey.txt') as f:
         kakao_key = f.read()
     base_url = 'https://dapi.kakao.com/v2/local/search/address.json'
     header = {'Authorization': f'KakaoAK {kakao_key}'}
@@ -26,7 +26,7 @@ def get_coord(addr):
 
 def hot_places(places, app):
     # 도로명 주소 구하기
-    with open('../04.지도시각화/data/roadapikey.txt') as f:
+    with open('static/data/roadapikey.txt') as f:
         road_key = f.read()
     road_addr_list = []
     for place in places:
@@ -41,7 +41,7 @@ def hot_places(places, app):
             print(result.status_code)
     df = pd.DataFrame({'place':places, 'addr':road_addr_list})
 
-    with open('../04.지도시각화/data/kakaoapikey.txt') as f:
+    with open('static/data/kakaoapikey.txt') as f:
         kakao_key = f.read()
     base_url = 'https://dapi.kakao.com/v2/local/search/address.json'
     header = {'Authorization': f'KakaoAK {kakao_key}'}
